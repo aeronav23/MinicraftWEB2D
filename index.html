@@ -6,119 +6,120 @@
   <title>MiniCraft PC</title>  
   <style>  
     :root { color-scheme: dark; }  
+  
     html, body {  
-      margin:0;  
-      height:100%;  
-      background:#0b0f14;  
-      font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;  
-      overflow:hidden;  
+      margin: 0;  
+      height: 100%;  
+      background: #0b0f14;  
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;  
+      overflow: hidden;  
     }  
   
     #wrap {  
-      position:fixed;  
-      inset:0;  
-      display:grid;  
-      place-items:center;  
+      position: fixed;  
+      inset: 0;  
+      display: grid;  
+      place-items: center;  
     }  
   
     canvas {  
-      width:100vw;  
-      height:100vh;  
-      background:#0b0f14;  
-      image-rendering:pixelated;  
+      width: 100vw;  
+      height: 100vh;  
+      background: #0b0f14;  
+      image-rendering: pixelated;  
     }  
   
     .hud {  
-      position:fixed;  
-      left:0;  
-      top:0;  
-      right:0;  
-      display:flex;  
-      gap:12px;  
-      align-items:center;  
-      padding:12px;  
-      pointer-events:none;  
-      user-select:none;  
+      position: fixed;  
+      left: 0;  
+      top: 0;  
+      right: 0;  
+      display: flex;  
+      gap: 12px;  
+      align-items: center;  
+      padding: 12px;  
+      pointer-events: none;  
+      user-select: none;  
     }  
   
     .pill {  
-      background:rgba(18,24,32,.78);  
-      border:1px solid rgba(255,255,255,.10);  
-      padding:8px 14px;  
-      border-radius:12px;  
-      font-size:13px;  
-      line-height:1.25;  
-      color:#d8e4ff;  
+      background: rgba(18,24,32,.78);  
+      border: 1px solid rgba(255,255,255,.10);  
+      padding: 8px 14px;  
+      border-radius: 12px;  
+      font-size: 13px;  
+      line-height: 1.25;  
+      color: #d8e4ff;  
     }  
   
     .bar {  
-      margin-left:auto;  
-      display:flex;  
-      gap:6px;  
-      align-items:center;  
-      background:rgba(18,24,32,.78);  
-      border:1px solid rgba(255,255,255,.10);  
-      padding:6px;  
-      border-radius:12px;  
+      margin-left: auto;  
+      display: flex;  
+      gap: 6px;  
+      align-items: center;  
+      background: rgba(18,24,32,.78);  
+      border: 1px solid rgba(255,255,255,.10);  
+      padding: 6px;  
+      border-radius: 12px;  
     }  
   
     .slot {  
-      width:38px;  
-      height:38px;  
-      border-radius:10px;  
-      border:1px solid rgba(255,255,255,.14);  
-      display:grid;  
-      place-items:center;  
-      font-size:14px;  
-      color:#d8e4ff;  
-      background:rgba(0,0,0,.22);  
-      cursor:default;  
+      width: 38px;  
+      height: 38px;  
+      border-radius: 10px;  
+      border: 1px solid rgba(255,255,255,.14);  
+      display: grid;  
+      place-items: center;  
+      font-size: 14px;  
+      color: #d8e4ff;  
+      background: rgba(0,0,0,.22);  
+      cursor: default;  
     }  
   
     .slot.sel {  
-      outline:2px solid rgba(130,180,255,.85);  
-      border-color:rgba(130,180,255,.6);  
+      outline: 2px solid rgba(130,180,255,.85);  
+      border-color: rgba(130,180,255,.6);  
     }  
   
     .hint {  
-      position:fixed;  
-      left:12px;  
-      right:12px;  
-      bottom:16px;  
-      display:flex;  
-      justify-content:center;  
-      pointer-events:none;  
+      position: fixed;  
+      left: 12px;  
+      right: 12px;  
+      bottom: 16px;  
+      display: flex;  
+      justify-content: center;  
+      pointer-events: none;  
     }  
   
     .hint .pill {  
-      max-width:760px;  
-      text-align:center;  
-      font-size:13px;  
-      padding:8px 14px;  
+      max-width: 980px;  
+      text-align: center;  
+      font-size: 13px;  
+      padding: 8px 14px;  
     }  
   
     #debug {  
-      position:fixed;  
-      left:12px;  
-      bottom:60px;  
-      background:rgba(0,0,0,0.6);  
-      color:#8af;  
-      font-size:12px;  
-      padding:4px 8px;  
-      border-radius:6px;  
-      pointer-events:none;  
+      position: fixed;  
+      left: 12px;  
+      bottom: 60px;  
+      background: rgba(0,0,0,0.6);  
+      color: #8af;  
+      font-size: 12px;  
+      padding: 4px 8px;  
+      border-radius: 6px;  
+      pointer-events: none;  
     }  
   
     #hearts {  
-      position:fixed;  
-      left:12px;  
-      top:74px;  
-      display:flex;  
-      gap:6px;  
-      font-size:24px;  
-      pointer-events:none;  
-      user-select:none;  
-      text-shadow:0 1px 0 rgba(0,0,0,.6);  
+      position: fixed;  
+      left: 12px;  
+      top: 74px;  
+      display: flex;  
+      gap: 6px;  
+      font-size: 24px;  
+      pointer-events: none;  
+      user-select: none;  
+      text-shadow: 0 1px 0 rgba(0,0,0,.6);  
     }  
   </style>  
 </head>  
@@ -129,7 +130,7 @@
 <div class="hud">  
   <div class="pill">  
     <b>MiniCraft PC</b><br>  
-    <small>ЛКМ — ломать / бить / открыть дверь · ПКМ — поставить</small>  
+    <small>ЛКМ — ломать / бить / открыть дверь · Shift + ЛКМ — сломать дверь · ПКМ — поставить</small>  
   </div>  
   <div class="bar" id="bar"></div>  
 </div>  
@@ -138,7 +139,7 @@
   
 <div class="hint">  
   <div class="pill">  
-    WASD / стрелки — движение · Пробел — прыжок · 1–6 — выбор блока · Колёсико — смена · R — новый мир  
+    WASD / стрелки — движение · Пробел — прыжок · 1–6 — выбор блока · Колёсико — смена · R — новый мир · Дверь ставится в 2 блока высотой  
   </div>  
 </div>  
   
@@ -157,7 +158,8 @@
     canvas.height = Math.round(innerHeight * dpr);  
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);  
   }  
-  addEventListener('resize', fit, { passive:true });  
+  
+  addEventListener('resize', fit, { passive: true });  
   fit();  
   
   const TILE_BASE = 32;  
@@ -173,35 +175,44 @@
   const AIR_CTRL = 0.10;  
   
   const BLOCK = {  
-    AIR:0,  
-    GRASS:1,  
-    DIRT:2,  
-    STONE:3,  
-    WOOD:4,  
-    SAND:5,  
-    DOOR_CLOSED:6,  
-    DOOR_OPEN:7  
+    AIR: 0,  
+    GRASS: 1,  
+    DIRT: 2,  
+    STONE: 3,  
+    WOOD: 4,  
+    SAND: 5,  
+    DOOR_BOTTOM_CLOSED: 6,  
+    DOOR_TOP_CLOSED: 7,  
+    DOOR_BOTTOM_OPEN: 8,  
+    DOOR_TOP_OPEN: 9,  
+    LEAVES: 10  
   };  
   
   const COLORS = {  
     [BLOCK.AIR]: null,  
-    [BLOCK.GRASS]: ['#2aa84a','#1f7f37'],  
-    [BLOCK.DIRT]:  ['#8a5a34','#6b4528'],  
-    [BLOCK.STONE]: ['#8e98a5','#707984'],  
-    [BLOCK.WOOD]:  ['#b07b3a','#8e612e'],  
-    [BLOCK.SAND]:  ['#e2d39b','#cdbf85'],  
-    [BLOCK.DOOR_CLOSED]: ['#7a4a1f','#5a3213'],  
-    [BLOCK.DOOR_OPEN]: ['#7a4a1f','#5a3213']  
+    [BLOCK.GRASS]: ['#2aa84a', '#1f7f37'],  
+    [BLOCK.DIRT]: ['#8a5a34', '#6b4528'],  
+    [BLOCK.STONE]: ['#8e98a5', '#707984'],  
+    [BLOCK.WOOD]: ['#b07b3a', '#8e612e'],  
+    [BLOCK.SAND]: ['#e2d39b', '#cdbf85'],  
+    [BLOCK.LEAVES]: ['#3fa34d', '#2d7d38'],  
+    [BLOCK.DOOR_BOTTOM_CLOSED]: ['#7a4a1f', '#5a3213'],  
+    [BLOCK.DOOR_TOP_CLOSED]: ['#7a4a1f', '#5a3213'],  
+    [BLOCK.DOOR_BOTTOM_OPEN]: ['#7a4a1f', '#5a3213'],  
+    [BLOCK.DOOR_TOP_OPEN]: ['#7a4a1f', '#5a3213']  
   };  
   
   const blockNames = {  
-    [BLOCK.GRASS]:'Grass',  
-    [BLOCK.DIRT]:'Dirt',  
-    [BLOCK.STONE]:'Stone',  
-    [BLOCK.WOOD]:'Wood',  
-    [BLOCK.SAND]:'Sand',  
-    [BLOCK.DOOR_CLOSED]:'Door',  
-    [BLOCK.DOOR_OPEN]:'Door Open'  
+    [BLOCK.GRASS]: 'Grass',  
+    [BLOCK.DIRT]: 'Dirt',  
+    [BLOCK.STONE]: 'Stone',  
+    [BLOCK.WOOD]: 'Wood',  
+    [BLOCK.SAND]: 'Sand',  
+    [BLOCK.LEAVES]: 'Leaves',  
+    [BLOCK.DOOR_BOTTOM_CLOSED]: 'Door',  
+    [BLOCK.DOOR_TOP_CLOSED]: 'Door',  
+    [BLOCK.DOOR_BOTTOM_OPEN]: 'Door Open',  
+    [BLOCK.DOOR_TOP_OPEN]: 'Door Open'  
   };  
   
   const hotbar = [  
@@ -210,7 +221,7 @@
     BLOCK.STONE,  
     BLOCK.WOOD,  
     BLOCK.SAND,  
-    BLOCK.DOOR_CLOSED  
+    BLOCK.DOOR_BOTTOM_CLOSED  
   ];  
   
   let selected = hotbar[0];  
@@ -220,15 +231,13 @@
     const el = document.createElement('div');  
     el.className = 'slot' + (i === 0 ? ' sel' : '');  
     el.textContent = String(i + 1);  
-    el.title = blockNames[id];  
+    el.title = i === 5 ? 'Door x2' : blockNames[id];  
     bar.appendChild(el);  
     return el;  
   });  
   
   function updateSlots() {  
-    slots.forEach((el, i) => {  
-      el.classList.toggle('sel', hotbar[i] === selected);  
-    });  
+    slots.forEach((el, i) => el.classList.toggle('sel', hotbar[i] === selected));  
   }  
   
   const world = new Uint8Array(W * H);  
@@ -239,25 +248,162 @@
     if (inside(x, y)) world[idx(x, y)] = v;  
   };  
   
+  function isDoorBlock(id) {  
+    return id === BLOCK.DOOR_BOTTOM_CLOSED ||  
+           id === BLOCK.DOOR_TOP_CLOSED ||  
+           id === BLOCK.DOOR_BOTTOM_OPEN ||  
+           id === BLOCK.DOOR_TOP_OPEN;  
+  }  
+  
+  function isClosedDoor(id) {  
+    return id === BLOCK.DOOR_BOTTOM_CLOSED || id === BLOCK.DOOR_TOP_CLOSED;  
+  }  
+  
+  function isOpenDoor(id) {  
+    return id === BLOCK.DOOR_BOTTOM_OPEN || id === BLOCK.DOOR_TOP_OPEN;  
+  }  
+  
   function isSolidBlock(id) {  
-    return id !== BLOCK.AIR && id !== BLOCK.DOOR_OPEN;  
+    return id !== BLOCK.AIR &&  
+           id !== BLOCK.DOOR_BOTTOM_OPEN &&  
+           id !== BLOCK.DOOR_TOP_OPEN;  
+  }  
+  
+  function getDoorBase(tx, ty) {  
+    const id = get(tx, ty);  
+    if (id === BLOCK.DOOR_BOTTOM_CLOSED || id === BLOCK.DOOR_BOTTOM_OPEN) {  
+      return { x: tx, y: ty };  
+    }  
+    if (id === BLOCK.DOOR_TOP_CLOSED || id === BLOCK.DOOR_TOP_OPEN) {  
+      return { x: tx, y: ty + 1 };  
+    }  
+    return null;  
+  }  
+  
+  function toggleDoorAt(tx, ty) {  
+    const base = getDoorBase(tx, ty);  
+    if (!base) return;  
+  
+    const bx = base.x;  
+    const by = base.y;  
+  
+    const bottom = get(bx, by);  
+    const top = get(bx, by - 1);  
+  
+    if (  
+      (bottom === BLOCK.DOOR_BOTTOM_CLOSED && top === BLOCK.DOOR_TOP_CLOSED)  
+    ) {  
+      set(bx, by, BLOCK.DOOR_BOTTOM_OPEN);  
+      set(bx, by - 1, BLOCK.DOOR_TOP_OPEN);  
+      return;  
+    }  
+  
+    if (  
+      (bottom === BLOCK.DOOR_BOTTOM_OPEN && top === BLOCK.DOOR_TOP_OPEN)  
+    ) {  
+      set(bx, by, BLOCK.DOOR_BOTTOM_CLOSED);  
+      set(bx, by - 1, BLOCK.DOOR_TOP_CLOSED);  
+    }  
+  }  
+  
+  function breakDoorAt(tx, ty) {  
+    const base = getDoorBase(tx, ty);  
+    if (!base) return;  
+    set(base.x, base.y, BLOCK.AIR);  
+    set(base.x, base.y - 1, BLOCK.AIR);  
+  }  
+  
+  function canCloseDoorAt(tx, ty, player, monsters) {  
+    const base = getDoorBase(tx, ty);  
+    if (!base) return false;  
+  
+    const bx = base.x;  
+    const by = base.y;  
+  
+    const doorRects = [  
+      { x: bx * TILE, y: by * TILE, w: TILE, h: TILE },  
+      { x: bx * TILE, y: (by - 1) * TILE, w: TILE, h: TILE }  
+    ];  
+  
+    for (const r of doorRects) {  
+      if (rectsOverlap(r.x, r.y, r.w, r.h, player.x, player.y, player.w, player.h)) {  
+        return false;  
+      }  
+    }  
+  
+    for (const m of monsters) {  
+      for (const r of doorRects) {  
+        if (rectsOverlap(r.x, r.y, r.w, r.h, m.x, m.y, m.w, m.h)) {  
+          return false;  
+        }  
+      }  
+    }  
+  
+    return true;  
   }  
   
   const player = {  
     x: W * TILE_BASE * 0.5,  
     y: H * TILE_BASE * 0.3,  
-    w:22,  
-    h:46,  
-    vx:0,  
-    vy:0,  
-    onGround:false,  
-    hp:5,  
-    hitTimer:0  
+    w: 22,  
+    h: 46,  
+    vx: 0,  
+    vy: 0,  
+    onGround: false,  
+    hp: 5,  
+    hitTimer: 0  
   };  
   
-  const cam = { x:0, y:0 };  
-  
+  const cam = { x: 0, y: 0 };  
   const monsters = [];  
+  const clouds = [];  
+  
+  function createClouds() {  
+    clouds.length = 0;  
+    const count = 16;  
+    for (let i = 0; i < count; i++) {  
+      clouds.push({  
+        x: Math.random() * (W * TILE_BASE),  
+        y: 30 + Math.random() * 180,  
+        w: 70 + Math.random() * 80,  
+        h: 20 + Math.random() * 18,  
+        speed: 8 + Math.random() * 8  
+      });  
+    }  
+  }  
+  
+  function drawClouds() {  
+    for (const c of clouds) {  
+      const px = c.x - cam.x * 0.35;  
+      const py = c.y - cam.y * 0.10;  
+  
+      ctx.globalAlpha = 0.85;  
+      ctx.fillStyle = '#ffffff';  
+  
+      ctx.beginPath();  
+      ctx.roundRect(px, py, c.w, c.h, 12);  
+      ctx.fill();  
+  
+      ctx.beginPath();  
+      ctx.arc(px + c.w * 0.25, py + 4, c.h * 0.65, 0, Math.PI * 2);  
+      ctx.arc(px + c.w * 0.48, py - 2, c.h * 0.9, 0, Math.PI * 2);  
+      ctx.arc(px + c.w * 0.70, py + 3, c.h * 0.7, 0, Math.PI * 2);  
+      ctx.fill();  
+  
+      ctx.globalAlpha = 1;  
+    }  
+  }  
+  
+  function updateClouds(dt) {  
+    const worldPx = W * TILE_BASE;  
+    for (const c of clouds) {  
+      c.x += c.speed * dt;  
+      if (c.x - c.w > worldPx + 300) {  
+        c.x = -200 - Math.random() * 250;  
+        c.y = 30 + Math.random() * 180;  
+      }  
+    }  
+  }  
   
   function drawHearts() {  
     heartsEl.textContent = '';  
@@ -270,13 +416,13 @@
     monsters.push({  
       x,  
       y,  
-      w:22,  
-      h:38,  
-      vx:35 + Math.random() * 20,  
-      vy:0,  
-      dir:Math.random() < 0.5 ? -1 : 1,  
-      onGround:false,  
-      hp:2  
+      w: 22,  
+      h: 38,  
+      vx: 35 + Math.random() * 20,  
+      vy: 0,  
+      dir: Math.random() < 0.5 ? -1 : 1,  
+      onGround: false,  
+      hp: 3  
     });  
   }  
   
@@ -325,18 +471,31 @@
         }  
       }  
   
-      if (Math.random() < 0.04) {  
-        const th = 3 + (Math.random() * 4 | 0);  
-        for (let t = 1; t <= th; t++) {  
-          if (top - t >= 0) set(x, top - t, BLOCK.WOOD);  
+      if (Math.random() < 0.05) {  
+        const height = 4 + (Math.random() * 3 | 0);  
+  
+        for (let i = 1; i <= height; i++) {  
+          if (top - i >= 0) set(x, top - i, BLOCK.WOOD);  
         }  
   
+        const leafTop = top - height;  
+  
         for (let dx = -2; dx <= 2; dx++) {  
-          for (let dy = -3; dy <= 0; dy++) {  
-            if (Math.abs(dx) + Math.abs(dy) <= 4 && Math.random() > 0.25) {  
-              set(x + dx, top - th + dy, BLOCK.WOOD);  
+          for (let dy = -2; dy <= 2; dy++) {  
+            const ax = x + dx;  
+            const ay = leafTop + dy;  
+  
+            if (!inside(ax, ay)) continue;  
+  
+            const dist = Math.abs(dx) + Math.abs(dy);  
+            if (dist <= 3 && get(ax, ay) === BLOCK.AIR) {  
+              set(ax, ay, BLOCK.LEAVES);  
             }  
           }  
+        }  
+  
+        if (inside(x, leafTop - 2) && get(x, leafTop - 2) === BLOCK.AIR) {  
+          set(x, leafTop - 2, BLOCK.LEAVES);  
         }  
       }  
     }  
@@ -350,6 +509,7 @@
     player.hp = 5;  
     player.hitTimer = 0;  
     drawHearts();  
+    createClouds();  
   }  
   
   generateWorld();  
@@ -373,7 +533,7 @@
   });  
   
   addEventListener('keydown', e => {  
-    const n = parseInt(e.key);  
+    const n = parseInt(e.key, 10);  
     if (n >= 1 && n <= hotbar.length) {  
       selected = hotbar[n - 1];  
       updateSlots();  
@@ -387,7 +547,7 @@
     i = (i + dir + hotbar.length) % hotbar.length;  
     selected = hotbar[i];  
     updateSlots();  
-  }, { passive:false });  
+  }, { passive: false });  
   
   canvas.addEventListener('contextmenu', e => e.preventDefault());  
   
@@ -436,38 +596,24 @@
     if (e.button === 0) {  
       const id = get(tx, ty);  
   
-  if (id === BLOCK.DOOR_CLOSED || id === BLOCK.DOOR_OPEN) {
-  if (e.shiftKey) {
-    set(tx, ty, BLOCK.AIR); // сломать дверь
-    return;
-  }
-
-  if (id === BLOCK.DOOR_CLOSED) {
-    set(tx, ty, BLOCK.DOOR_OPEN); // открыть
-    return;
-  }
-
-  if (id === BLOCK.DOOR_OPEN) {
-    const wouldCloseOnPlayer =
-      tx * TILE < player.x + player.w &&
-      (tx + 1) * TILE > player.x &&
-      ty * TILE < player.y + player.h &&
-      (ty + 1) * TILE > player.y;
-
-    let wouldCloseOnMonster = false;
-    for (const m of monsters) {
-      if (rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, m.x, m.y, m.w, m.h)) {
-        wouldCloseOnMonster = true;
-        break;
-      }
-    }
-
-    if (!wouldCloseOnPlayer && !wouldCloseOnMonster) {
-      set(tx, ty, BLOCK.DOOR_CLOSED); // закрыть
-    }
-    return;
-  }
-}
+      if (isDoorBlock(id)) {  
+        if (e.shiftKey) {  
+          breakDoorAt(tx, ty);  
+          return;  
+        }  
+  
+        if (isClosedDoor(id)) {  
+          toggleDoorAt(tx, ty);  
+          return;  
+        }  
+  
+        if (isOpenDoor(id)) {  
+          if (canCloseDoorAt(tx, ty, player, monsters)) {  
+            toggleDoorAt(tx, ty);  
+          }  
+          return;  
+        }  
+      }  
   
       let hitMonster = false;  
       for (let i = monsters.length - 1; i >= 0; i--) {  
@@ -487,9 +633,35 @@
     }  
   
     if (e.button === 2) {  
-      if (get(tx, ty) !== BLOCK.AIR) return;  
+      if (selected === BLOCK.DOOR_BOTTOM_CLOSED) {  
+        if (!inside(tx, ty, ) || !inside(tx, ty - 1)) return;  
+        if (get(tx, ty) !== BLOCK.AIR) return;  
+        if (get(tx, ty - 1) !== BLOCK.AIR) return;  
   
-      const placeId = selected === BLOCK.DOOR_CLOSED ? BLOCK.DOOR_CLOSED : selected;  
+        const wouldCollidePlayerBottom =  
+          rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, player.x, player.y, player.w, player.h);  
+        const wouldCollidePlayerTop =  
+          rectsOverlap(tx * TILE, (ty - 1) * TILE, TILE, TILE, player.x, player.y, player.w, player.h);  
+  
+        let wouldCollideMonster = false;  
+        for (const m of monsters) {  
+          if (  
+            rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, m.x, m.y, m.w, m.h) ||  
+            rectsOverlap(tx * TILE, (ty - 1) * TILE, TILE, TILE, m.x, m.y, m.w, m.h)  
+          ) {  
+            wouldCollideMonster = true;  
+            break;  
+          }  
+        }  
+  
+        if (!wouldCollidePlayerBottom && !wouldCollidePlayerTop && !wouldCollideMonster) {  
+          set(tx, ty, BLOCK.DOOR_BOTTOM_CLOSED);  
+          set(tx, ty - 1, BLOCK.DOOR_TOP_CLOSED);  
+        }  
+        return;  
+      }  
+  
+      if (get(tx, ty) !== BLOCK.AIR) return;  
   
       const wouldCollidePlayer =  
         tx * TILE < player.x + player.w &&  
@@ -506,7 +678,7 @@
       }  
   
       if (!wouldCollidePlayer && !wouldCollideMonster) {  
-        set(tx, ty, placeId);  
+        set(tx, ty, selected);  
       }  
     }  
   });  
@@ -599,9 +771,9 @@
   
   function drawBackground() {  
     const g = ctx.createLinearGradient(0, 0, 0, innerHeight);  
-   g.addColorStop(0, '#87CEEB');
-   g.addColorStop(0.6, '#6ec6ff');
-   g.addColorStop(1, '#3fa7ff');
+    g.addColorStop(0, '#87cfff');  
+    g.addColorStop(0.55, '#69b8ff');  
+    g.addColorStop(1, '#c8ecff');  
     ctx.fillStyle = g;  
     ctx.fillRect(0, 0, innerWidth, innerHeight);  
   }  
@@ -610,13 +782,11 @@
     const px = x * TILE - cam.x;  
     const py = y * TILE - cam.y;  
   
-    if (id === BLOCK.DOOR_CLOSED) {  
+    if (id === BLOCK.DOOR_BOTTOM_CLOSED) {  
       ctx.fillStyle = '#7a4a1f';  
-      ctx.fillRect(px + 5, py + 2, TILE - 10, TILE - 2);  
-  
+      ctx.fillRect(px + 5, py, TILE - 10, TILE);  
       ctx.fillStyle = '#5a3213';  
-      ctx.fillRect(px + TILE - 10, py + 2, 5, TILE - 2);  
-  
+      ctx.fillRect(px + TILE - 10, py, 5, TILE);  
       ctx.fillStyle = '#d9b36a';  
       ctx.beginPath();  
       ctx.arc(px + TILE - 13, py + TILE / 2, 2.5, 0, Math.PI * 2);  
@@ -624,16 +794,62 @@
       return;  
     }  
   
-    if (id === BLOCK.DOOR_OPEN) {  
+    if (id === BLOCK.DOOR_TOP_CLOSED) {  
       ctx.fillStyle = '#7a4a1f';  
-      ctx.fillRect(px + TILE - 9, py + 2, 6, TILE - 2);  
+      ctx.fillRect(px + 5, py, TILE - 10, TILE);  
+      ctx.fillStyle = '#5a3213';  
+      ctx.fillRect(px + TILE - 10, py, 5, TILE);  
+      ctx.strokeStyle = 'rgba(255,220,170,0.35)';  
+      ctx.strokeRect(px + 9, py + 6, TILE - 18, TILE - 12);  
+      return;  
+    }  
   
+    if (id === BLOCK.DOOR_BOTTOM_OPEN) {  
+      ctx.fillStyle = '#7a4a1f';  
+      ctx.fillRect(px + TILE - 8, py, 6, TILE);  
       ctx.fillStyle = '#d9b36a';  
       ctx.beginPath();  
-      ctx.arc(px + TILE - 12, py + TILE / 2, 2.5, 0, Math.PI * 2);  
+      ctx.arc(px + TILE - 11, py + TILE / 2, 2.5, 0, Math.PI * 2);  
       ctx.fill();  
       return;  
     }  
+  
+    if (id === BLOCK.DOOR_TOP_OPEN) {  
+      ctx.fillStyle = '#7a4a1f';  
+      ctx.fillRect(px + TILE - 8, py, 6, TILE);  
+      ctx.strokeStyle = 'rgba(255,220,170,0.35)';  
+      ctx.strokeRect(px + TILE - 18, py + 6, 8, TILE - 12);  
+      return;  
+    }  
+  
+ if (id === BLOCK.LEAVES) {
+  // основа как у травы
+  ctx.fillStyle = '#3fa34d';
+  ctx.fillRect(px, py, TILE, TILE);
+
+  // тёмная кромка как у травы
+  ctx.fillStyle = '#2d7d38';
+  ctx.fillRect(px, py + TILE - 7, TILE, 7);
+  ctx.fillRect(px + TILE - 7, py, 7, TILE);
+
+  // тёмные точки
+  ctx.fillStyle = '#2f8a3d';
+  for (let i = 0; i < 14; i++) {
+    const nx = px + (((x * 37 + y * 17 + i * 13) % TILE + TILE) % TILE);
+    const ny = py + (((x * 19 + y * 29 + i * 7) % TILE + TILE) % TILE);
+    ctx.fillRect(nx, ny, 2, 2);
+  }
+
+  // светлые точки
+  ctx.fillStyle = '#66c96f';
+  for (let i = 0; i < 8; i++) {
+    const nx = px + (((x * 11 + y * 23 + i * 5) % TILE + TILE) % TILE);
+    const ny = py + (((x * 31 + y * 13 + i * 9) % TILE + TILE) % TILE);
+    ctx.fillRect(nx, ny, 1, 1);
+  }
+
+  return;
+}
   
     const pal = COLORS[id];  
     if (!pal) return;  
@@ -673,7 +889,9 @@
     ctx.fillRect(px + player.w - 11, py + 12, 3, 3);  
   
     ctx.globalAlpha = 0.9;  
-    ctx.fillStyle = COLORS[selected][0];  
+    ctx.fillStyle = selected === BLOCK.DOOR_BOTTOM_CLOSED  
+      ? '#7a4a1f'  
+      : (COLORS[selected] ? COLORS[selected][0] : '#ffffff');  
     ctx.fillRect(px + player.w - 8, py + player.h - 22, 14, 14);  
   
     ctx.globalAlpha = 1;  
@@ -697,6 +915,11 @@
       ctx.fillStyle = '#2b0c0c';  
       ctx.fillRect(px + 5, py + m.h - 6, 4, 6);  
       ctx.fillRect(px + m.w - 9, py + m.h - 6, 4, 6);  
+  
+      ctx.fillStyle = '#1f1f1f';  
+      ctx.fillRect(px - 1, py - 8, 20, 5);  
+      ctx.fillStyle = '#ff5555';  
+      ctx.fillRect(px, py - 7, m.hp * 6, 3);  
     }  
   }  
   
@@ -721,6 +944,8 @@
     const dt = Math.min(0.033, (now - last) / 1000);  
     last = now;  
   
+    updateClouds(dt);  
+  
     let ax = 0;  
     if (keys['a'] || keys['arrowleft']) ax -= 1;  
     if (keys['d'] || keys['arrowright']) ax += 1;  
@@ -740,7 +965,6 @@
   
     for (const m of monsters) {  
       moveMonster(m, dt);  
-  
       if (rectsOverlap(player.x, player.y, player.w, player.h, m.x, m.y, m.w, m.h)) {  
         damagePlayer();  
       }  
@@ -757,6 +981,7 @@
     cam.y = Math.max(0, Math.min(cam.y, H * TILE - innerHeight));  
   
     drawBackground();  
+    drawClouds();  
   
     const x0 = Math.max(0, Math.floor(cam.x / TILE) - 1);  
     const y0 = Math.max(0, Math.floor(cam.y / TILE) - 1);  
@@ -779,7 +1004,7 @@
     const bid = get(tx, ty);  
   
     debug.textContent =  
-      `Цель: (${tx}, ${ty})  ${bid ? blockNames[bid] : 'Air'}  |  Монстров: ${monsters.length}`;  
+      `Цель: (${tx}, ${ty}) ${bid ? blockNames[bid] : 'Air'} | Монстров: ${monsters.length}`;  
   
     requestAnimationFrame(loop);  
   }  
