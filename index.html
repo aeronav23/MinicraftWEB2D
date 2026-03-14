@@ -1,156 +1,102 @@
 <!doctype html>  
 <html lang="ru">  
 <head>  
-  <meta charset="utf-8" />  
-  <meta name="viewport" content="width=device-width,initial-scale=1" />  
-  <title>MiniCraft PC</title>  
-  <style>  
-    :root { color-scheme: dark; }  
+<meta charset="utf-8">  
+<meta name="viewport" content="width=device-width,initial-scale=1">  
+<title>MiniCraft</title>  
+<style>  
+  :root { color-scheme: dark; }  
   
-    html, body {  
-      margin: 0;  
-      height: 100%;  
-      background: #0b0f14;  
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;  
-      overflow: hidden;  
-    }  
+  html, body {  
+    margin: 0;  
+    height: 100%;  
+    overflow: hidden;  
+    background: #0b0f14;  
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;  
+  }  
   
-    #wrap {  
-      position: fixed;  
-      inset: 0;  
-      display: grid;  
-      place-items: center;  
-    }  
+  canvas {  
+    width: 100vw;  
+    height: 100vh;  
+    display: block;  
+    image-rendering: pixelated;  
+  }  
   
-    canvas {  
-      width: 100vw;  
-      height: 100vh;  
-      background: #0b0f14;  
-      image-rendering: pixelated;  
-    }  
+  #hud {  
+    position: fixed;  
+    left: 10px;  
+    top: 10px;  
+    z-index: 5;  
+    color: white;  
+    user-select: none;  
+    text-shadow: 0 1px 2px rgba(0,0,0,.6);  
+    font-size: 14px;  
+  }  
   
-    .hud {  
-      position: fixed;  
-      left: 0;  
-      top: 0;  
-      right: 0;  
-      display: flex;  
-      gap: 12px;  
-      align-items: center;  
-      padding: 12px;  
-      pointer-events: none;  
-      user-select: none;  
-    }  
+  #hearts {  
+    font-size: 24px;  
+    margin-bottom: 6px;  
+  }  
   
-    .pill {  
-      background: rgba(18,24,32,.78);  
-      border: 1px solid rgba(255,255,255,.10);  
-      padding: 8px 14px;  
-      border-radius: 12px;  
-      font-size: 13px;  
-      line-height: 1.25;  
-      color: #d8e4ff;  
-    }  
+  #info {  
+    background: rgba(0,0,0,.28);  
+    padding: 8px 10px;  
+    border-radius: 10px;  
+    line-height: 1.35;  
+  }  
   
-    .bar {  
-      margin-left: auto;  
-      display: flex;  
-      gap: 6px;  
-      align-items: center;  
-      background: rgba(18,24,32,.78);  
-      border: 1px solid rgba(255,255,255,.10);  
-      padding: 6px;  
-      border-radius: 12px;  
-    }  
+  #bar {  
+    position: fixed;  
+    right: 10px;  
+    top: 10px;  
+    display: flex;  
+    gap: 6px;  
+    z-index: 5;  
+  }  
   
-    .slot {  
-      width: 38px;  
-      height: 38px;  
-      border-radius: 10px;  
-      border: 1px solid rgba(255,255,255,.14);  
-      display: grid;  
-      place-items: center;  
-      font-size: 14px;  
-      color: #d8e4ff;  
-      background: rgba(0,0,0,.22);  
-      cursor: default;  
-    }  
+  .slot {  
+    width: 38px;  
+    height: 38px;  
+    border-radius: 10px;  
+    display: grid;  
+    place-items: center;  
+    color: #fff;  
+    font-weight: 700;  
+    background: rgba(0,0,0,.28);  
+    border: 1px solid rgba(255,255,255,.18);  
+    user-select: none;  
+  }  
   
-    .slot.sel {  
-      outline: 2px solid rgba(130,180,255,.85);  
-      border-color: rgba(130,180,255,.6);  
-    }  
-  
-    .hint {  
-      position: fixed;  
-      left: 12px;  
-      right: 12px;  
-      bottom: 16px;  
-      display: flex;  
-      justify-content: center;  
-      pointer-events: none;  
-    }  
-  
-    .hint .pill {  
-      max-width: 980px;  
-      text-align: center;  
-      font-size: 13px;  
-      padding: 8px 14px;  
-    }  
-  
-    #debug {  
-      position: fixed;  
-      left: 12px;  
-      bottom: 60px;  
-      background: rgba(0,0,0,0.6);  
-      color: #8af;  
-      font-size: 12px;  
-      padding: 4px 8px;  
-      border-radius: 6px;  
-      pointer-events: none;  
-    }  
-  
-    #hearts {  
-      position: fixed;  
-      left: 12px;  
-      top: 74px;  
-      display: flex;  
-      gap: 6px;  
-      font-size: 24px;  
-      pointer-events: none;  
-      user-select: none;  
-      text-shadow: 0 1px 0 rgba(0,0,0,.6);  
-    }  
-  </style>  
+  .slot.sel {  
+    outline: 2px solid #9fd1ff;  
+    border-color: #9fd1ff;  
+  }  
+</style>  
 </head>  
 <body>  
   
-<div id="wrap"><canvas id="c"></canvas></div>  
-  
-<div class="hud">  
-  <div class="pill">  
-    <b>MiniCraft PC</b><br>  
-    <small>ЛКМ — ломать / бить / открыть дверь · Shift + ЛКМ — сломать дверь · ПКМ — поставить</small>  
-  </div>  
-  <div class="bar" id="bar"></div>  
-</div>  
-  
-<div id="hearts"></div>  
-  
-<div class="hint">  
-  <div class="pill">  
-    WASD / стрелки — движение · Пробел — прыжок · 1–6 — выбор блока · Колёсико — смена · R — новый мир · Дверь ставится в 2 блока высотой  
+<div id="hud">  
+  <div id="hearts"></div>  
+  <div id="info">  
+    WASD / стрелки — идти<br>  
+    Пробел — прыжок<br>  
+    ЛКМ — ломать / бить / открыть дверь<br>  
+    Shift + ЛКМ — сломать дверь<br>  
+    ПКМ — ставить<br>  
+    1–6 / колёсико — выбор блока<br>  
+    R — новый мир  
   </div>  
 </div>  
   
-<div id="debug"></div>  
+<div id="bar"></div>  
+<canvas id="c"></canvas>  
   
 <script>  
 (() => {  
-  const canvas = document.getElementById('c');  
-  const ctx = canvas.getContext('2d');  
-  const debug = document.getElementById('debug');  
-  const heartsEl = document.getElementById('hearts');  
+  const canvas = document.getElementById("c");  
+  const ctx = canvas.getContext("2d");  
+  const heartsEl = document.getElementById("hearts");  
+  const bar = document.getElementById("bar");  
   
   function fit() {  
     const dpr = Math.max(1, Math.min(2.5, window.devicePixelRatio || 1));  
@@ -158,21 +104,19 @@
     canvas.height = Math.round(innerHeight * dpr);  
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);  
   }  
-  
-  addEventListener('resize', fit, { passive: true });  
+  addEventListener("resize", fit, { passive: true });  
   fit();  
   
-  const TILE_BASE = 32;  
-  let TILE = TILE_BASE;  
-  
-  const W = 180;  
-  const H = 80;  
+  const TILE = 32;  
+  const W = 220;  
+  const H = 90;  
   
   const GRAV = 1400;  
-  const MOVE = 120;  
-  const JUMP = 480;  
-  const FRICTION = 0.58;  
-  const AIR_CTRL = 0.10;  
+  const PLAYER_MOVE = 130;  
+  const PLAYER_JUMP = 500;  
+  
+  const SAFE_SPAWN_MIN = 1200;  
+  const SAFE_SPAWN_RANDOM = 600;  
   
   const BLOCK = {  
     AIR: 0,  
@@ -181,38 +125,19 @@
     STONE: 3,  
     WOOD: 4,  
     SAND: 5,  
-    DOOR_BOTTOM_CLOSED: 6,  
-    DOOR_TOP_CLOSED: 7,  
-    DOOR_BOTTOM_OPEN: 8,  
-    DOOR_TOP_OPEN: 9,  
+    DOOR_B: 6,  
+    DOOR_T: 7,  
+    DOOR_B_OPEN: 8,  
+    DOOR_T_OPEN: 9,  
     LEAVES: 10  
   };  
   
   const COLORS = {  
-    [BLOCK.AIR]: null,  
     [BLOCK.GRASS]: ['#2aa84a', '#1f7f37'],  
-    [BLOCK.DIRT]: ['#8a5a34', '#6b4528'],  
+    [BLOCK.DIRT]:  ['#8a5a34', '#6b4528'],  
     [BLOCK.STONE]: ['#8e98a5', '#707984'],  
-    [BLOCK.WOOD]: ['#b07b3a', '#8e612e'],  
-    [BLOCK.SAND]: ['#e2d39b', '#cdbf85'],  
-    [BLOCK.LEAVES]: ['#3fa34d', '#2d7d38'],  
-    [BLOCK.DOOR_BOTTOM_CLOSED]: ['#7a4a1f', '#5a3213'],  
-    [BLOCK.DOOR_TOP_CLOSED]: ['#7a4a1f', '#5a3213'],  
-    [BLOCK.DOOR_BOTTOM_OPEN]: ['#7a4a1f', '#5a3213'],  
-    [BLOCK.DOOR_TOP_OPEN]: ['#7a4a1f', '#5a3213']  
-  };  
-  
-  const blockNames = {  
-    [BLOCK.GRASS]: 'Grass',  
-    [BLOCK.DIRT]: 'Dirt',  
-    [BLOCK.STONE]: 'Stone',  
-    [BLOCK.WOOD]: 'Wood',  
-    [BLOCK.SAND]: 'Sand',  
-    [BLOCK.LEAVES]: 'Leaves',  
-    [BLOCK.DOOR_BOTTOM_CLOSED]: 'Door',  
-    [BLOCK.DOOR_TOP_CLOSED]: 'Door',  
-    [BLOCK.DOOR_BOTTOM_OPEN]: 'Door Open',  
-    [BLOCK.DOOR_TOP_OPEN]: 'Door Open'  
+    [BLOCK.WOOD]:  ['#b07b3a', '#8e612e'],  
+    [BLOCK.SAND]:  ['#e2d39b', '#cdbf85']  
   };  
   
   const hotbar = [  
@@ -221,274 +146,328 @@
     BLOCK.STONE,  
     BLOCK.WOOD,  
     BLOCK.SAND,  
-    BLOCK.DOOR_BOTTOM_CLOSED  
+    BLOCK.DOOR_B  
   ];  
-  
   let selected = hotbar[0];  
   
-  const bar = document.getElementById('bar');  
   const slots = hotbar.map((id, i) => {  
-    const el = document.createElement('div');  
-    el.className = 'slot' + (i === 0 ? ' sel' : '');  
+    const el = document.createElement("div");  
+    el.className = "slot" + (i === 0 ? " sel" : "");  
     el.textContent = String(i + 1);  
-    el.title = i === 5 ? 'Door x2' : blockNames[id];  
     bar.appendChild(el);  
     return el;  
   });  
   
   function updateSlots() {  
-    slots.forEach((el, i) => el.classList.toggle('sel', hotbar[i] === selected));  
+    slots.forEach((el, i) => el.classList.toggle("sel", hotbar[i] === selected));  
   }  
   
   const world = new Uint8Array(W * H);  
   const idx = (x, y) => x + y * W;  
   const inside = (x, y) => x >= 0 && y >= 0 && x < W && y < H;  
   const get = (x, y) => inside(x, y) ? world[idx(x, y)] : BLOCK.STONE;  
-  const set = (x, y, v) => {  
-    if (inside(x, y)) world[idx(x, y)] = v;  
-  };  
+  const set = (x, y, v) => { if (inside(x, y)) world[idx(x, y)] = v; };  
   
-  function isDoorBlock(id) {  
-    return id === BLOCK.DOOR_BOTTOM_CLOSED ||  
-           id === BLOCK.DOOR_TOP_CLOSED ||  
-           id === BLOCK.DOOR_BOTTOM_OPEN ||  
-           id === BLOCK.DOOR_TOP_OPEN;  
+  function isDoor(id) {  
+    return id === BLOCK.DOOR_B || id === BLOCK.DOOR_T || id === BLOCK.DOOR_B_OPEN || id === BLOCK.DOOR_T_OPEN;  
   }  
   
-  function isClosedDoor(id) {  
-    return id === BLOCK.DOOR_BOTTOM_CLOSED || id === BLOCK.DOOR_TOP_CLOSED;  
+  function isSolid(id) {  
+    return id !== BLOCK.AIR && id !== BLOCK.DOOR_B_OPEN && id !== BLOCK.DOOR_T_OPEN;  
   }  
   
-  function isOpenDoor(id) {  
-    return id === BLOCK.DOOR_BOTTOM_OPEN || id === BLOCK.DOOR_TOP_OPEN;  
-  }  
-  
-  function isSolidBlock(id) {  
-    return id !== BLOCK.AIR &&  
-           id !== BLOCK.DOOR_BOTTOM_OPEN &&  
-           id !== BLOCK.DOOR_TOP_OPEN;  
-  }  
-  
-  function getDoorBase(tx, ty) {  
-    const id = get(tx, ty);  
-    if (id === BLOCK.DOOR_BOTTOM_CLOSED || id === BLOCK.DOOR_BOTTOM_OPEN) {  
-      return { x: tx, y: ty };  
-    }  
-    if (id === BLOCK.DOOR_TOP_CLOSED || id === BLOCK.DOOR_TOP_OPEN) {  
-      return { x: tx, y: ty + 1 };  
-    }  
-    return null;  
-  }  
-  
-  function toggleDoorAt(tx, ty) {  
-    const base = getDoorBase(tx, ty);  
-    if (!base) return;  
-  
-    const bx = base.x;  
-    const by = base.y;  
-  
-    const bottom = get(bx, by);  
-    const top = get(bx, by - 1);  
-  
-    if (  
-      (bottom === BLOCK.DOOR_BOTTOM_CLOSED && top === BLOCK.DOOR_TOP_CLOSED)  
-    ) {  
-      set(bx, by, BLOCK.DOOR_BOTTOM_OPEN);  
-      set(bx, by - 1, BLOCK.DOOR_TOP_OPEN);  
-      return;  
-    }  
-  
-    if (  
-      (bottom === BLOCK.DOOR_BOTTOM_OPEN && top === BLOCK.DOOR_TOP_OPEN)  
-    ) {  
-      set(bx, by, BLOCK.DOOR_BOTTOM_CLOSED);  
-      set(bx, by - 1, BLOCK.DOOR_TOP_CLOSED);  
-    }  
-  }  
-  
-  function breakDoorAt(tx, ty) {  
-    const base = getDoorBase(tx, ty);  
-    if (!base) return;  
-    set(base.x, base.y, BLOCK.AIR);  
-    set(base.x, base.y - 1, BLOCK.AIR);  
-  }  
-  
-  function canCloseDoorAt(tx, ty, player, monsters) {  
-    const base = getDoorBase(tx, ty);  
-    if (!base) return false;  
-  
-    const bx = base.x;  
-    const by = base.y;  
-  
-    const doorRects = [  
-      { x: bx * TILE, y: by * TILE, w: TILE, h: TILE },  
-      { x: bx * TILE, y: (by - 1) * TILE, w: TILE, h: TILE }  
-    ];  
-  
-    for (const r of doorRects) {  
-      if (rectsOverlap(r.x, r.y, r.w, r.h, player.x, player.y, player.w, player.h)) {  
-        return false;  
-      }  
-    }  
-  
-    for (const m of monsters) {  
-      for (const r of doorRects) {  
-        if (rectsOverlap(r.x, r.y, r.w, r.h, m.x, m.y, m.w, m.h)) {  
-          return false;  
-        }  
-      }  
-    }  
-  
-    return true;  
-  }  
-  
-  const player = {  
-    x: W * TILE_BASE * 0.5,  
-    y: H * TILE_BASE * 0.3,  
-    w: 22,  
-    h: 46,  
-    vx: 0,  
-    vy: 0,  
-    onGround: false,  
-    hp: 5,  
-    hitTimer: 0  
-  };  
-  
-  const cam = { x: 0, y: 0 };  
-  const monsters = [];  
-  const clouds = [];  
-  
-  function createClouds() {  
-    clouds.length = 0;  
-    const count = 16;  
-    for (let i = 0; i < count; i++) {  
-      clouds.push({  
-        x: Math.random() * (W * TILE_BASE),  
-        y: 30 + Math.random() * 180,  
-        w: 70 + Math.random() * 80,  
-        h: 20 + Math.random() * 18,  
-        speed: 8 + Math.random() * 8  
-      });  
-    }  
-  }  
-  
-  function drawClouds() {  
-    for (const c of clouds) {  
-      const px = c.x - cam.x * 0.35;  
-      const py = c.y - cam.y * 0.10;  
-  
-      ctx.globalAlpha = 0.85;  
-      ctx.fillStyle = '#ffffff';  
-  
-      ctx.beginPath();  
-      ctx.roundRect(px, py, c.w, c.h, 12);  
-      ctx.fill();  
-  
-      ctx.beginPath();  
-      ctx.arc(px + c.w * 0.25, py + 4, c.h * 0.65, 0, Math.PI * 2);  
-      ctx.arc(px + c.w * 0.48, py - 2, c.h * 0.9, 0, Math.PI * 2);  
-      ctx.arc(px + c.w * 0.70, py + 3, c.h * 0.7, 0, Math.PI * 2);  
-      ctx.fill();  
-  
-      ctx.globalAlpha = 1;  
-    }  
-  }  
-  
-  function updateClouds(dt) {  
-    const worldPx = W * TILE_BASE;  
-    for (const c of clouds) {  
-      c.x += c.speed * dt;  
-      if (c.x - c.w > worldPx + 300) {  
-        c.x = -200 - Math.random() * 250;  
-        c.y = 30 + Math.random() * 180;  
-      }  
-    }  
-  }  
-  
-  function drawHearts() {  
-    heartsEl.textContent = '';  
-    for (let i = 0; i < 5; i++) {  
-      heartsEl.textContent += i < player.hp ? '❤️' : '🖤';  
-    }  
-  }  
-  
-  function spawnMonster(x, y) {  
-    monsters.push({  
-      x,  
-      y,  
-      w: 22,  
-      h: 38,  
-      vx: 35 + Math.random() * 20,  
-      vy: 0,  
-      dir: Math.random() < 0.5 ? -1 : 1,  
-      onGround: false,  
-      hp: 3  
-    });  
+  function solidAtPx(px, py) {  
+    return isSolid(get(Math.floor(px / TILE), Math.floor(py / TILE)));  
   }  
   
   function rectsOverlap(ax, ay, aw, ah, bx, by, bw, bh) {  
     return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;  
   }  
   
-  function solidAt(px, py) {  
-    const tx = Math.floor(px / TILE);  
-    const ty = Math.floor(py / TILE);  
-    return isSolidBlock(get(tx, ty));  
+  function getDoorBase(tx, ty) {  
+    const id = get(tx, ty);  
+    if (id === BLOCK.DOOR_B || id === BLOCK.DOOR_B_OPEN) return { x: tx, y: ty };  
+    if (id === BLOCK.DOOR_T || id === BLOCK.DOOR_T_OPEN) return { x: tx, y: ty + 1 };  
+    return null;  
+  }  
+  
+  function breakDoor(tx, ty) {  
+    const base = getDoorBase(tx, ty);  
+    if (!base) return;  
+    set(base.x, base.y, BLOCK.AIR);  
+    set(base.x, base.y - 1, BLOCK.AIR);  
+  }  
+  
+  function canCloseDoor(tx, ty) {  
+    const base = getDoorBase(tx, ty);  
+    if (!base) return false;  
+  
+    const rects = [  
+      { x: base.x * TILE, y: base.y * TILE, w: TILE, h: TILE },  
+      { x: base.x * TILE, y: (base.y - 1) * TILE, w: TILE, h: TILE }  
+    ];  
+  
+    for (const r of rects) {  
+      if (rectsOverlap(r.x, r.y, r.w, r.h, player.x, player.y, player.w, player.h)) return false;  
+      for (const m of monsters) {  
+        if (rectsOverlap(r.x, r.y, r.w, r.h, m.x, m.y, m.w, m.h)) return false;  
+      }  
+    }  
+    return true;  
+  }  
+  
+  function toggleDoor(tx, ty) {  
+    const base = getDoorBase(tx, ty);  
+    if (!base) return;  
+  
+    const b = get(base.x, base.y);  
+    const t = get(base.x, base.y - 1);  
+  
+    if (b === BLOCK.DOOR_B && t === BLOCK.DOOR_T) {  
+      set(base.x, base.y, BLOCK.DOOR_B_OPEN);  
+      set(base.x, base.y - 1, BLOCK.DOOR_T_OPEN);  
+      return;  
+    }  
+  
+    if (b === BLOCK.DOOR_B_OPEN && t === BLOCK.DOOR_T_OPEN && canCloseDoor(tx, ty)) {  
+      set(base.x, base.y, BLOCK.DOOR_B);  
+      set(base.x, base.y - 1, BLOCK.DOOR_T);  
+    }  
+  }  
+  
+  const player = {  
+    x: W * TILE * 0.5,  
+    y: 100,  
+    w: 22,  
+    h: 46,  
+    vx: 0,  
+    vy: 0,  
+    onGround: false,  
+    hp: 5,  
+    hitTimer: 0,
+    regenTimer: 0  
+  };  
+  
+  function centerCameraOnPlayer() {  
+    camX = player.x + player.w / 2 - innerWidth / 2;  
+    camY = player.y + player.h / 2 - innerHeight / 2;  
+    camX = Math.max(0, Math.min(camX, W * TILE - innerWidth));  
+    camY = Math.max(0, Math.min(camY, H * TILE - innerHeight));  
+  }  
+  
+  function resetPlayerPosition() {  
+    player.x = W * TILE * 0.5;  
+    player.y = 100;  
+    player.vx = 0;  
+    player.vy = 0;  
+    centerCameraOnPlayer();  
+  }  
+  
+  function updateHearts() {  
+    heartsEl.textContent = "";  
+    for (let i = 0; i < 5; i++) heartsEl.textContent += i < player.hp ? "❤️" : "🖤";  
+  }  
+  updateHearts();  
+  
+  const monsters = [];  
+  const clouds = [];  
+  const stars = [];  
+  
+  let camX = 0;  
+  let camY = 0;  
+  
+  let dayTime = 0;  
+  let lastNightState = false;  
+  let spawnTimer = 0;  
+  
+  const keys = {};  
+  addEventListener("keydown", e => {  
+    keys[e.key.toLowerCase()] = true;  
+  
+    if (e.key === "r" || e.key === "R") {  
+      generateWorld();  
+      resetPlayerPosition();  
+      dayTime = 0;  
+      lastNightState = false;  
+      spawnTimer = 0;  
+    }  
+  
+    const n = parseInt(e.key, 10);  
+    if (n >= 1 && n <= hotbar.length) {  
+      selected = hotbar[n - 1];  
+      updateSlots();  
+    }  
+  });  
+  
+  addEventListener("keyup", e => {  
+    keys[e.key.toLowerCase()] = false;  
+  });  
+  
+  canvas.addEventListener("wheel", e => {  
+    e.preventDefault();  
+    const dir = e.deltaY > 0 ? 1 : -1;  
+    let i = hotbar.indexOf(selected);  
+    i = (i + dir + hotbar.length) % hotbar.length;  
+    selected = hotbar[i];  
+    updateSlots();  
+  }, { passive: false });  
+  
+  canvas.addEventListener("contextmenu", e => e.preventDefault());  
+  
+  const mouse = { x: 0, y: 0 };  
+  canvas.addEventListener("mousemove", e => {  
+    const r = canvas.getBoundingClientRect();  
+    mouse.x = e.clientX - r.left;  
+    mouse.y = e.clientY - r.top;  
+  });  
+  
+  function makeClouds() {  
+    clouds.length = 0;  
+    for (let i = 0; i < 16; i++) {  
+      clouds.push({  
+        x: Math.random() * (W * TILE),  
+        y: 30 + Math.random() * 180,  
+        w: 70 + Math.random() * 90,  
+        h: 18 + Math.random() * 14,  
+        speed: 7 + Math.random() * 8  
+      });  
+    }  
+  }  
+  
+  function makeStars() {  
+    stars.length = 0;  
+    for (let i = 0; i < 80; i++) {  
+      stars.push({  
+        x: Math.random(),  
+        y: Math.random() * 0.55,  
+        size: Math.random() < 0.75 ? 1 : 2,  
+        twinkle: Math.random() * Math.PI * 2  
+      });  
+    }  
+  }  
+  
+  function spawnMonster(x, y) {  
+    const test = {  
+      x,  
+      y,  
+      w: 22,  
+      h: 38  
+    };  
+  
+    if (rectsOverlap(test.x, test.y, test.w, test.h, player.x, player.y, player.w, player.h)) {  
+      return false;  
+    }  
+  
+    for (const m of monsters) {  
+      if (rectsOverlap(test.x, test.y, test.w, test.h, m.x, m.y, m.w, m.h)) {  
+        return false;  
+      }  
+    }  
+  
+    monsters.push({  
+      x,  
+      y,  
+      w: 22,  
+      h: 38,  
+      vx: 0,  
+      vy: 0,  
+      dir: Math.random() < 0.5 ? -1 : 1,  
+      onGround: false,  
+      hp: 3,  
+      cooldown: 0  
+    });  
+  
+    return true;  
   }  
   
   function findGroundY(worldX) {  
-    const tx = Math.max(0, Math.min(W - 1, Math.floor(worldX / TILE_BASE)));  
+    const tx = Math.max(0, Math.min(W - 1, Math.floor(worldX / TILE)));  
     for (let y = 0; y < H; y++) {  
-      if (isSolidBlock(get(tx, y))) {  
-        return y * TILE_BASE - 38;  
-      }  
+      if (isSolid(get(tx, y))) return y * TILE - 38;  
     }  
     return 100;  
+  }  
+  
+  function countNearbyMonsters(x, radius) {  
+    let count = 0;  
+    for (const m of monsters) {  
+      if (Math.abs((m.x + m.w / 2) - x) < radius) count++;  
+    }  
+    return count;  
+  }  
+  
+  function spawnMonsterNearPlayer() {  
+    if (monsters.length >= 20) return;  
+  
+    let tries = 0;  
+  
+    while (tries < 20) {  
+      const side = Math.random() < 0.5 ? -1 : 1;  
+      const dist = SAFE_SPAWN_MIN + Math.random() * SAFE_SPAWN_RANDOM;  
+      const x = player.x + side * dist;  
+  
+      if (x < 64 || x > W * TILE - 64) {  
+        tries++;  
+        continue;  
+      }  
+  
+      if (countNearbyMonsters(x, 240) >= 3) {  
+        tries++;  
+        continue;  
+      }  
+  
+      const y = findGroundY(x);  
+  
+      if (spawnMonster(x, y)) return;  
+      tries++;  
+    }  
+  }  
+  
+  function trimDayMonsters() {  
+    if (monsters.length <= 4) return;  
+    for (let i = monsters.length - 1; i >= 0; i--) {  
+      const m = monsters[i];  
+      const far = Math.abs(m.x - player.x) > 700;  
+      if (far && monsters.length > 4) monsters.splice(i, 1);  
+    }  
   }  
   
   function generateWorld() {  
     world.fill(BLOCK.AIR);  
     monsters.length = 0;  
   
-    const base = Math.floor(H * 0.56);  
-    let h = base;  
+    let h = Math.floor(H * 0.56);  
+    let slope = 0;  
   
     for (let x = 0; x < W; x++) {  
-      h += (Math.random() * 2 - 1) * 1.2;  
-      h = Math.max(base - 9, Math.min(base + 9, h));  
-      const top = Math.floor(h);  
+      slope += (Math.random() * 2 - 1) * 0.22;  
+      slope *= 0.92;  
+      h += slope;  
+      h = Math.max(38, Math.min(62, h));  
   
+      const top = Math.floor(h);  
       set(x, top, BLOCK.GRASS);  
   
       for (let y = top + 1; y < H; y++) {  
-        if (y < top + 6) set(x, y, BLOCK.DIRT);  
+        if (y < top + 5) set(x, y, BLOCK.DIRT);  
         else set(x, y, BLOCK.STONE);  
       }  
   
-      if (Math.random() < 0.07) {  
-        for (let dy = 0; dy < 3; dy++) {  
-          if (top + dy < H) set(x, top + dy, BLOCK.SAND);  
-        }  
-      }  
+      if (Math.random() < 0.045) {  
+        const th = 4 + (Math.random() * 3 | 0);  
   
-      if (Math.random() < 0.05) {  
-        const height = 4 + (Math.random() * 3 | 0);  
-  
-        for (let i = 1; i <= height; i++) {  
-          if (top - i >= 0) set(x, top - i, BLOCK.WOOD);  
+        for (let t = 1; t <= th; t++) {  
+          if (top - t >= 0) set(x, top - t, BLOCK.WOOD);  
         }  
   
-        const leafTop = top - height;  
+        const leafTop = top - th;  
   
         for (let dx = -2; dx <= 2; dx++) {  
           for (let dy = -2; dy <= 2; dy++) {  
             const ax = x + dx;  
             const ay = leafTop + dy;  
-  
             if (!inside(ax, ay)) continue;  
-  
-            const dist = Math.abs(dx) + Math.abs(dy);  
-            if (dist <= 3 && get(ax, ay) === BLOCK.AIR) {  
+            if (Math.abs(dx) + Math.abs(dy) <= 3 && get(ax, ay) === BLOCK.AIR) {  
               set(ax, ay, BLOCK.LEAVES);  
             }  
           }  
@@ -498,291 +477,321 @@
           set(x, leafTop - 2, BLOCK.LEAVES);  
         }  
       }  
+  
+      if (Math.random() < 0.04) {  
+        for (let y = top; y < Math.min(H, top + 3); y++) set(x, y, BLOCK.SAND);  
+      }  
     }  
   
-    for (let i = 0; i < 8; i++) {  
-      const mx = 100 + Math.random() * (W * TILE_BASE - 200);  
-      const my = findGroundY(mx);  
-      spawnMonster(mx, my);  
+    for (let i = 0; i < 5; i++) {  
+      let tries = 0;  
+  
+      while (tries < 30) {  
+        const side = Math.random() < 0.5 ? -1 : 1;  
+        const mx = player.x + side * (SAFE_SPAWN_MIN + Math.random() * SAFE_SPAWN_RANDOM);  
+        const clampedX = Math.max(64, Math.min(W * TILE - 64, mx));  
+        const my = findGroundY(clampedX);  
+  
+        if (spawnMonster(clampedX, my)) break;  
+        tries++;  
+      }  
     }  
   
     player.hp = 5;  
     player.hitTimer = 0;  
-    drawHearts();  
-    createClouds();  
+    updateHearts();  
+    makeClouds();  
+    makeStars();  
+    centerCameraOnPlayer();  
   }  
   
   generateWorld();  
-  
-  const keys = {};  
-  
-  addEventListener('keydown', e => {  
-    keys[e.key.toLowerCase()] = true;  
-  
-    if (e.key === 'r' || e.key === 'R') {  
-      generateWorld();  
-      player.x = W * TILE_BASE * 0.5;  
-      player.y = 100;  
-      player.vx = 0;  
-      player.vy = 0;  
-    }  
-  });  
-  
-  addEventListener('keyup', e => {  
-    keys[e.key.toLowerCase()] = false;  
-  });  
-  
-  addEventListener('keydown', e => {  
-    const n = parseInt(e.key, 10);  
-    if (n >= 1 && n <= hotbar.length) {  
-      selected = hotbar[n - 1];  
-      updateSlots();  
-    }  
-  });  
-  
-  canvas.addEventListener('wheel', e => {  
-    e.preventDefault();  
-    const dir = e.deltaY > 0 ? 1 : -1;  
-    let i = hotbar.indexOf(selected);  
-    i = (i + dir + hotbar.length) % hotbar.length;  
-    selected = hotbar[i];  
-    updateSlots();  
-  }, { passive: false });  
-  
-  canvas.addEventListener('contextmenu', e => e.preventDefault());  
-  
-  let mouse = { x: innerWidth / 2, y: innerHeight / 2 };  
-  
-  canvas.addEventListener('mousemove', e => {  
-    const r = canvas.getBoundingClientRect();  
-    mouse.x = e.clientX - r.left;  
-    mouse.y = e.clientY - r.top;  
-  });  
+  resetPlayerPosition();  
   
   function damagePlayer() {  
     if (player.hitTimer > 0) return;  
-  
     player.hp--;  
     player.hitTimer = 1.0;  
-    drawHearts();  
+    updateHearts();  
   
     if (player.hp <= 0) {  
-      alert('Ты проиграл. Мир создан заново.');  
+      alert("Ты проиграл. Мир создан заново.");  
       generateWorld();  
-      player.x = W * TILE_BASE * 0.5;  
-      player.y = 100;  
-      player.vx = 0;  
-      player.vy = 0;  
+      resetPlayerPosition();  
+      dayTime = 0;  
+      lastNightState = false;  
+      spawnTimer = 0;  
     }  
   }  
   
-  canvas.addEventListener('mousedown', e => {  
+  canvas.addEventListener("mousedown", e => {  
     if (e.button !== 0 && e.button !== 2) return;  
   
-    const rect = canvas.getBoundingClientRect();  
-    const mx = e.clientX - rect.left;  
-    const my = e.clientY - rect.top;  
-  
-    const wx = mx + cam.x;  
-    const wy = my + cam.y;  
-    const tx = Math.floor(wx / TILE);  
-    const ty = Math.floor(wy / TILE);  
+    const worldX = mouse.x + camX;  
+    const worldY = mouse.y + camY;  
+    const tx = Math.floor(worldX / TILE);  
+    const ty = Math.floor(worldY / TILE);  
   
     const px = player.x + player.w / 2;  
     const py = player.y + player.h / 2;  
-  
-    if (Math.hypot((tx + 0.5) * TILE - px, (ty + 0.5) * TILE - py) > 260) return;  
+    if (Math.hypot((tx + 0.5) * TILE - px, (ty + 0.5) * TILE - py) > 270) return;  
   
     if (e.button === 0) {  
       const id = get(tx, ty);  
   
-      if (isDoorBlock(id)) {  
-        if (e.shiftKey) {  
-          breakDoorAt(tx, ty);  
-          return;  
-        }  
-  
-        if (isClosedDoor(id)) {  
-          toggleDoorAt(tx, ty);  
-          return;  
-        }  
-  
-        if (isOpenDoor(id)) {  
-          if (canCloseDoorAt(tx, ty, player, monsters)) {  
-            toggleDoorAt(tx, ty);  
-          }  
-          return;  
-        }  
+      if (isDoor(id)) {  
+        if (e.shiftKey) breakDoor(tx, ty);  
+        else toggleDoor(tx, ty);  
+        return;  
       }  
   
-      let hitMonster = false;  
       for (let i = monsters.length - 1; i >= 0; i--) {  
         const m = monsters[i];  
         if (rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, m.x, m.y, m.w, m.h)) {  
           m.hp--;  
+          m.cooldown = 0.3;  
           if (m.hp <= 0) monsters.splice(i, 1);  
-          hitMonster = true;  
-          break;  
+          return;  
         }  
       }  
-      if (hitMonster) return;  
   
-      if (id !== BLOCK.AIR) {  
-        set(tx, ty, BLOCK.AIR);  
-      }  
+      if (id !== BLOCK.AIR) set(tx, ty, BLOCK.AIR);  
+      return;  
     }  
   
-    if (e.button === 2) {  
-      if (selected === BLOCK.DOOR_BOTTOM_CLOSED) {  
-        if (!inside(tx, ty, ) || !inside(tx, ty - 1)) return;  
-        if (get(tx, ty) !== BLOCK.AIR) return;  
-        if (get(tx, ty - 1) !== BLOCK.AIR) return;  
+    if (selected === BLOCK.DOOR_B) {  
+      if (!inside(tx, ty) || !inside(tx, ty - 1)) return;  
+      if (get(tx, ty) !== BLOCK.AIR || get(tx, ty - 1) !== BLOCK.AIR) return;  
   
-        const wouldCollidePlayerBottom =  
-          rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, player.x, player.y, player.w, player.h);  
-        const wouldCollidePlayerTop =  
-          rectsOverlap(tx * TILE, (ty - 1) * TILE, TILE, TILE, player.x, player.y, player.w, player.h);  
+      if (  
+        rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, player.x, player.y, player.w, player.h) ||  
+        rectsOverlap(tx * TILE, (ty - 1) * TILE, TILE, TILE, player.x, player.y, player.w, player.h)  
+      ) return;  
   
-        let wouldCollideMonster = false;  
-        for (const m of monsters) {  
-          if (  
-            rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, m.x, m.y, m.w, m.h) ||  
-            rectsOverlap(tx * TILE, (ty - 1) * TILE, TILE, TILE, m.x, m.y, m.w, m.h)  
-          ) {  
-            wouldCollideMonster = true;  
-            break;  
-          }  
-        }  
-  
-        if (!wouldCollidePlayerBottom && !wouldCollidePlayerTop && !wouldCollideMonster) {  
-          set(tx, ty, BLOCK.DOOR_BOTTOM_CLOSED);  
-          set(tx, ty - 1, BLOCK.DOOR_TOP_CLOSED);  
-        }  
-        return;  
-      }  
-  
-      if (get(tx, ty) !== BLOCK.AIR) return;  
-  
-      const wouldCollidePlayer =  
-        tx * TILE < player.x + player.w &&  
-        (tx + 1) * TILE > player.x &&  
-        ty * TILE < player.y + player.h &&  
-        (ty + 1) * TILE > player.y;  
-  
-      let wouldCollideMonster = false;  
       for (const m of monsters) {  
-        if (rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, m.x, m.y, m.w, m.h)) {  
-          wouldCollideMonster = true;  
-          break;  
-        }  
+        if (  
+          rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, m.x, m.y, m.w, m.h) ||  
+          rectsOverlap(tx * TILE, (ty - 1) * TILE, TILE, TILE, m.x, m.y, m.w, m.h)  
+        ) return;  
       }  
   
-      if (!wouldCollidePlayer && !wouldCollideMonster) {  
-        set(tx, ty, selected);  
-      }  
+      set(tx, ty, BLOCK.DOOR_B);  
+      set(tx, ty - 1, BLOCK.DOOR_T);  
+      return;  
     }  
+  
+    if (get(tx, ty) !== BLOCK.AIR) return;  
+  
+    if (rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, player.x, player.y, player.w, player.h)) return;  
+    for (const m of monsters) {  
+      if (rectsOverlap(tx * TILE, ty * TILE, TILE, TILE, m.x, m.y, m.w, m.h)) return;  
+    }  
+  
+    set(tx, ty, selected);  
   });  
   
-  function movePlayerAndCollide(dt) {  
-    player.onGround = false;  
+  function moveBody(body, dt) {  
+    body.onGround = false;  
   
-    player.x += player.vx * dt;  
-    if (player.vx !== 0) {  
-      const dir = Math.sign(player.vx);  
-      const edgeX = dir > 0 ? player.x + player.w : player.x;  
-      const t = dir > 0 ? -0.001 : 0.001;  
+    body.x += body.vx * dt;  
+    if (body.vx !== 0) {  
+      const dir = Math.sign(body.vx);  
+      const edgeX = dir > 0 ? body.x + body.w : body.x;  
+      const eps = dir > 0 ? -0.001 : 0.001;  
   
-      for (let y = player.y + 2; y < player.y + player.h - 2; y += 12) {  
-        if (solidAt(edgeX + t, y)) {  
-          player.x = dir > 0  
-            ? Math.floor(edgeX / TILE) * TILE - player.w  
+      for (let y = body.y + 2; y < body.y + body.h - 2; y += 10) {  
+        if (solidAtPx(edgeX + eps, y)) {  
+          body.x = dir > 0  
+            ? Math.floor(edgeX / TILE) * TILE - body.w  
             : (Math.floor(edgeX / TILE) + 1) * TILE;  
-          player.vx = 0;  
+          body.vx = 0;  
           break;  
         }  
       }  
     }  
   
-    player.y += player.vy * dt;  
-    if (player.vy !== 0) {  
-      const dir = Math.sign(player.vy);  
-      const edgeY = dir > 0 ? player.y + player.h : player.y;  
-      const t = dir > 0 ? -0.001 : 0.001;  
+    body.y += body.vy * dt;  
+    if (body.vy !== 0) {  
+      const dir = Math.sign(body.vy);  
+      const edgeY = dir > 0 ? body.y + body.h : body.y;  
+      const eps = dir > 0 ? -0.001 : 0.001;  
   
-      for (let x = player.x + 2; x < player.x + player.w - 2; x += 12) {  
-        if (solidAt(x, edgeY + t)) {  
-          player.y = dir > 0  
-            ? Math.floor(edgeY / TILE) * TILE - player.h  
+      for (let x = body.x + 2; x < body.x + body.w - 2; x += 10) {  
+        if (solidAtPx(x, edgeY + eps)) {  
+          body.y = dir > 0  
+            ? Math.floor(edgeY / TILE) * TILE - body.h  
             : (Math.floor(edgeY / TILE) + 1) * TILE;  
-          player.vy = 0;  
-          if (dir > 0) player.onGround = true;  
+          body.vy = 0;  
+          if (dir > 0) body.onGround = true;  
           break;  
         }  
       }  
     }  
   }  
   
-  function moveMonster(m, dt) {  
-    m.onGround = false;  
+  function updateMonster(m, dt) {  
+    if (m.cooldown > 0) m.cooldown -= dt;  
+  
+    const playerCenter = player.x + player.w / 2;  
+    const monsterCenter = m.x + m.w / 2;  
+    const dx = playerCenter - monsterCenter;  
+    const dist = Math.abs(dx);  
+  
+    let targetDir = m.dir;  
+    let targetSpeed = 32;  
+  
+    if (dist < 280) {  
+      targetDir = dx > 0 ? 1 : -1;  
+      targetSpeed = 82;  
+    }  
+  
+    m.dir = targetDir;  
+    m.vx = targetSpeed * m.dir;  
     m.vy += GRAV * dt;  
   
-    m.x += m.vx * m.dir * dt;  
+    const frontX = m.dir > 0 ? m.x + m.w + 2 : m.x - 2;  
+    const wallMidY = m.y + m.h - 14;  
+    const footAheadY = m.y + m.h + 2;  
   
-    const dir = Math.sign(m.vx * m.dir || m.dir);  
-    const edgeX = dir > 0 ? m.x + m.w : m.x;  
-    const t = dir > 0 ? -0.001 : 0.001;  
-    let hitWall = false;  
+    const wallAhead = solidAtPx(frontX, wallMidY);  
+    const noGroundAhead = !solidAtPx(frontX, footAheadY);  
   
-    for (let y = m.y + 2; y < m.y + m.h - 2; y += 12) {  
-      if (solidAt(edgeX + t, y)) {  
-        m.x = dir > 0  
-          ? Math.floor(edgeX / TILE) * TILE - m.w  
-          : (Math.floor(edgeX / TILE) + 1) * TILE;  
-        hitWall = true;  
-        break;  
-      }  
+    if (m.onGround && wallAhead) {  
+      m.vy = -430;  
+      m.onGround = false;  
+    } else if (m.onGround && noGroundAhead && dist < 280) {  
+      m.vy = -360;  
+      m.onGround = false;  
     }  
   
-    const footX = dir > 0 ? m.x + m.w + 2 : m.x - 2;  
-    const footY = m.y + m.h + 2;  
-    if (!solidAt(footX, footY)) hitWall = true;  
+    moveBody(m, dt);  
   
-    if (hitWall) m.dir *= -1;  
-  
-    m.y += m.vy * dt;  
-  
-    if (m.vy !== 0) {  
-      const vdir = Math.sign(m.vy);  
-      const edgeY = vdir > 0 ? m.y + m.h : m.y;  
-      const t2 = vdir > 0 ? -0.001 : 0.001;  
-  
-      for (let x = m.x + 2; x < m.x + m.w - 2; x += 12) {  
-        if (solidAt(x, edgeY + t2)) {  
-          m.y = vdir > 0  
-            ? Math.floor(edgeY / TILE) * TILE - m.h  
-            : (Math.floor(edgeY / TILE) + 1) * TILE;  
-          m.vy = 0;  
-          if (vdir > 0) m.onGround = true;  
-          break;  
-        }  
-      }  
+    if (m.vx === 0 && m.onGround) {  
+      m.dir *= -1;  
     }  
   }  
   
-  function drawBackground() {  
+  function mix(a, b, t) {  
+    return a + (b - a) * t;  
+  }  
+  
+  function drawBackground(dayT) {  
+    const topR = Math.round(mix(12, 135, dayT));  
+    const topG = Math.round(mix(20, 206, dayT));  
+    const topB = Math.round(mix(42, 255, dayT));  
+  
+    const midR = Math.round(mix(18, 105, dayT));  
+    const midG = Math.round(mix(26, 184, dayT));  
+    const midB = Math.round(mix(55, 255, dayT));  
+  
+    const botR = Math.round(mix(18, 200, dayT));  
+    const botG = Math.round(mix(22, 236, dayT));  
+    const botB = Math.round(mix(38, 255, dayT));  
+  
     const g = ctx.createLinearGradient(0, 0, 0, innerHeight);  
-    g.addColorStop(0, '#87cfff');  
-    g.addColorStop(0.55, '#69b8ff');  
-    g.addColorStop(1, '#c8ecff');  
+    g.addColorStop(0, `rgb(${topR},${topG},${topB})`);  
+    g.addColorStop(0.55, `rgb(${midR},${midG},${midB})`);  
+    g.addColorStop(1, `rgb(${botR},${botG},${botB})`);  
     ctx.fillStyle = g;  
     ctx.fillRect(0, 0, innerWidth, innerHeight);  
   }  
   
-  function drawTile(x, y, id) {  
-    const px = x * TILE - cam.x;  
-    const py = y * TILE - cam.y;  
+  function drawStars(nightAlpha, now) {  
+    if (nightAlpha <= 0.01) return;  
+    ctx.fillStyle = "#ffffff";  
+    ctx.globalAlpha = nightAlpha * 0.95;  
   
-    if (id === BLOCK.DOOR_BOTTOM_CLOSED) {  
+    for (const s of stars) {  
+      const tw = 0.65 + 0.35 * Math.sin(now * 0.002 + s.twinkle);  
+      ctx.globalAlpha = nightAlpha * tw;  
+      const x = s.x * innerWidth;  
+      const y = s.y * innerHeight;  
+      ctx.fillRect(x, y, s.size, s.size);  
+    }  
+  
+    ctx.globalAlpha = 1;  
+  }  
+  
+  function drawSunMoon(dayT, timeNorm) {  
+    const arcX = innerWidth * (0.1 + 0.8 * timeNorm);  
+    const arcY = innerHeight * 0.78 - Math.sin(timeNorm * Math.PI) * innerHeight * 0.6;  
+  
+    const nightAlpha = 1 - dayT;  
+  
+    if (dayT > 0.05) {  
+      ctx.globalAlpha = dayT * 0.95;  
+      ctx.fillStyle = "#ffe38a";  
+      ctx.beginPath();  
+      ctx.arc(arcX, arcY, 26, 0, Math.PI * 2);  
+      ctx.fill();  
+    }  
+  
+    if (nightAlpha > 0.05) {  
+      ctx.globalAlpha = nightAlpha * 0.9;  
+      ctx.fillStyle = "#e6ecff";  
+      ctx.beginPath();  
+      ctx.arc(arcX, arcY, 20, 0, Math.PI * 2);  
+      ctx.fill();  
+  
+      ctx.fillStyle = `rgba(20,30,60,${nightAlpha})`;  
+      ctx.beginPath();  
+      ctx.arc(arcX + 7, arcY - 3, 18, 0, Math.PI * 2);  
+      ctx.fill();  
+    }  
+  
+    ctx.globalAlpha = 1;  
+  }  
+  
+  function drawClouds(dayT) {  
+    for (const c of clouds) {  
+      const px = c.x - camX * 0.35;  
+      const py = c.y - camY * 0.08;  
+  
+      ctx.globalAlpha = 0.28 + 0.55 * dayT;  
+      ctx.fillStyle = "#ffffff";  
+  
+      ctx.beginPath();  
+      ctx.roundRect(px, py, c.w, c.h, 10);  
+      ctx.fill();  
+  
+      ctx.beginPath();  
+      ctx.arc(px + c.w * 0.25, py + 4, c.h * 0.65, 0, Math.PI * 2);  
+      ctx.arc(px + c.w * 0.48, py - 2, c.h * 0.95, 0, Math.PI * 2);  
+      ctx.arc(px + c.w * 0.72, py + 2, c.h * 0.72, 0, Math.PI * 2);  
+      ctx.fill();  
+    }  
+    ctx.globalAlpha = 1;  
+  }  
+  
+  function drawTile(x, y, id) {  
+    const px = x * TILE - camX;  
+    const py = y * TILE - camY;  
+  
+    if (id === BLOCK.LEAVES) {  
+      ctx.fillStyle = '#49b458';  
+      ctx.fillRect(px, py, TILE, TILE);  
+  
+      ctx.fillStyle = '#2f8f3d';  
+      ctx.fillRect(px, py + TILE - 7, TILE, 7);  
+      ctx.fillRect(px + TILE - 7, py, 7, TILE);  
+  
+      ctx.fillStyle = '#267532';  
+      for (let i = 0; i < 14; i++) {  
+        const nx = px + (((x * 37 + y * 17 + i * 13) % TILE + TILE) % TILE);  
+        const ny = py + (((x * 19 + y * 29 + i * 7) % TILE + TILE) % TILE);  
+        ctx.fillRect(nx, ny, 2, 2);  
+      }  
+  
+      ctx.fillStyle = '#7be285';  
+      for (let i = 0; i < 8; i++) {  
+        const nx = px + (((x * 11 + y * 23 + i * 5) % TILE + TILE) % TILE);  
+        const ny = py + (((x * 31 + y * 13 + i * 9) % TILE + TILE) % TILE);  
+        ctx.fillRect(nx, ny, 1, 1);  
+      }  
+      return;  
+    }  
+  
+    if (id === BLOCK.DOOR_B) {  
       ctx.fillStyle = '#7a4a1f';  
       ctx.fillRect(px + 5, py, TILE - 10, TILE);  
       ctx.fillStyle = '#5a3213';  
@@ -794,17 +803,15 @@
       return;  
     }  
   
-    if (id === BLOCK.DOOR_TOP_CLOSED) {  
+    if (id === BLOCK.DOOR_T) {  
       ctx.fillStyle = '#7a4a1f';  
       ctx.fillRect(px + 5, py, TILE - 10, TILE);  
-      ctx.fillStyle = '#5a3213';  
-      ctx.fillRect(px + TILE - 10, py, 5, TILE);  
       ctx.strokeStyle = 'rgba(255,220,170,0.35)';  
       ctx.strokeRect(px + 9, py + 6, TILE - 18, TILE - 12);  
       return;  
     }  
   
-    if (id === BLOCK.DOOR_BOTTOM_OPEN) {  
+    if (id === BLOCK.DOOR_B_OPEN) {  
       ctx.fillStyle = '#7a4a1f';  
       ctx.fillRect(px + TILE - 8, py, 6, TILE);  
       ctx.fillStyle = '#d9b36a';  
@@ -814,42 +821,13 @@
       return;  
     }  
   
-    if (id === BLOCK.DOOR_TOP_OPEN) {  
+    if (id === BLOCK.DOOR_T_OPEN) {  
       ctx.fillStyle = '#7a4a1f';  
       ctx.fillRect(px + TILE - 8, py, 6, TILE);  
       ctx.strokeStyle = 'rgba(255,220,170,0.35)';  
       ctx.strokeRect(px + TILE - 18, py + 6, 8, TILE - 12);  
       return;  
     }  
-  
- if (id === BLOCK.LEAVES) {
-  // основа как у травы
-  ctx.fillStyle = '#3fa34d';
-  ctx.fillRect(px, py, TILE, TILE);
-
-  // тёмная кромка как у травы
-  ctx.fillStyle = '#2d7d38';
-  ctx.fillRect(px, py + TILE - 7, TILE, 7);
-  ctx.fillRect(px + TILE - 7, py, 7, TILE);
-
-  // тёмные точки
-  ctx.fillStyle = '#2f8a3d';
-  for (let i = 0; i < 14; i++) {
-    const nx = px + (((x * 37 + y * 17 + i * 13) % TILE + TILE) % TILE);
-    const ny = py + (((x * 19 + y * 29 + i * 7) % TILE + TILE) % TILE);
-    ctx.fillRect(nx, ny, 2, 2);
-  }
-
-  // светлые точки
-  ctx.fillStyle = '#66c96f';
-  for (let i = 0; i < 8; i++) {
-    const nx = px + (((x * 11 + y * 23 + i * 5) % TILE + TILE) % TILE);
-    const ny = py + (((x * 31 + y * 13 + i * 9) % TILE + TILE) % TILE);
-    ctx.fillRect(nx, ny, 1, 1);
-  }
-
-  return;
-}
   
     const pal = COLORS[id];  
     if (!pal) return;  
@@ -863,77 +841,72 @@
   
     ctx.globalAlpha = 0.11;  
     for (let i = 0; i < 4; i++) {  
-      const nx = px + (Math.random() * TILE | 0);  
-      const ny = py + (Math.random() * TILE | 0);  
+      const nx = px + (((x * 17 + y * 11 + i * 7) % TILE + TILE) % TILE);  
+      const ny = py + (((x * 13 + y * 19 + i * 5) % TILE + TILE) % TILE);  
       ctx.fillRect(nx, ny, 2, 2);  
     }  
     ctx.globalAlpha = 1;  
   }  
   
   function drawPlayer() {  
-    const px = player.x - cam.x;  
-    const py = player.y - cam.y;  
+    const px = player.x - camX;  
+    const py = player.y - camY;  
   
     if (player.hitTimer > 0 && Math.floor(player.hitTimer * 20) % 2 === 0) {  
-      ctx.globalAlpha = 0.55;  
+      ctx.globalAlpha = 0.5;  
     }  
   
-    ctx.fillStyle = '#f2c39b';  
+    ctx.fillStyle = "#f2c39b";  
     ctx.fillRect(px + 5, py + 8, player.w - 10, 14);  
   
-    ctx.fillStyle = '#2d7bd6';  
+    ctx.fillStyle = "#2d7bd6";  
     ctx.fillRect(px + 4, py + 22, player.w - 8, player.h - 26);  
   
-    ctx.fillStyle = '#0b0f14';  
+    ctx.fillStyle = "#111";  
     ctx.fillRect(px + 8, py + 12, 3, 3);  
     ctx.fillRect(px + player.w - 11, py + 12, 3, 3);  
   
-    ctx.globalAlpha = 0.9;  
-    ctx.fillStyle = selected === BLOCK.DOOR_BOTTOM_CLOSED  
-      ? '#7a4a1f'  
-      : (COLORS[selected] ? COLORS[selected][0] : '#ffffff');  
+    ctx.globalAlpha = 0.95;  
+    ctx.fillStyle = selected === BLOCK.DOOR_B ? "#7a4a1f" : (COLORS[selected] ? COLORS[selected][0] : "#fff");  
     ctx.fillRect(px + player.w - 8, py + player.h - 22, 14, 14);  
-  
     ctx.globalAlpha = 1;  
   }  
   
   function drawMonsters() {  
     for (const m of monsters) {  
-      const px = m.x - cam.x;  
-      const py = m.y - cam.y;  
+      const px = m.x - camX;  
+      const py = m.y - camY;  
   
-      ctx.fillStyle = '#6f2222';  
+      ctx.fillStyle = "#6f2222";  
       ctx.fillRect(px, py + 8, m.w, m.h - 8);  
   
-      ctx.fillStyle = '#8f2d2d';  
+      ctx.fillStyle = "#8f2d2d";  
       ctx.fillRect(px + 2, py, m.w - 4, 14);  
   
-      ctx.fillStyle = '#ff4a4a';  
+      ctx.fillStyle = "#ff4a4a";  
       ctx.fillRect(px + 4, py + 4, 4, 4);  
       ctx.fillRect(px + m.w - 8, py + 4, 4, 4);  
   
-      ctx.fillStyle = '#2b0c0c';  
+      ctx.fillStyle = "#2b0c0c";  
       ctx.fillRect(px + 5, py + m.h - 6, 4, 6);  
       ctx.fillRect(px + m.w - 9, py + m.h - 6, 4, 6);  
   
-      ctx.fillStyle = '#1f1f1f';  
+      ctx.fillStyle = "#1f1f1f";  
       ctx.fillRect(px - 1, py - 8, 20, 5);  
-      ctx.fillStyle = '#ff5555';  
+      ctx.fillStyle = "#ff5555";  
       ctx.fillRect(px, py - 7, m.hp * 6, 3);  
     }  
   }  
   
   function drawTarget() {  
-    const mx = mouse.x + cam.x;  
-    const my = mouse.y + cam.y;  
-    const tx = Math.floor(mx / TILE);  
-    const ty = Math.floor(my / TILE);  
-    const px = tx * TILE - cam.x;  
-    const py = ty * TILE - cam.y;  
+    const tx = Math.floor((mouse.x + camX) / TILE);  
+    const ty = Math.floor((mouse.y + camY) / TILE);  
+    const px = tx * TILE - camX;  
+    const py = ty * TILE - camY;  
   
     ctx.globalAlpha = 0.8;  
-    ctx.strokeStyle = 'rgba(140,190,255,0.9)';  
-    ctx.lineWidth = 2.5;  
+    ctx.strokeStyle = "rgba(140,190,255,0.9)";  
+    ctx.lineWidth = 2;  
     ctx.strokeRect(px + 1, py + 1, TILE - 2, TILE - 2);  
     ctx.globalAlpha = 1;  
   }  
@@ -944,27 +917,58 @@
     const dt = Math.min(0.033, (now - last) / 1000);  
     last = now;  
   
-    updateClouds(dt);  
+    const dayCycleSeconds = 180;  
+    dayTime = (dayTime + dt / dayCycleSeconds) % 1;  
+    const dayT = Math.max(0, Math.sin(dayTime * Math.PI));  
+    const nightAlpha = 1 - dayT;  
+    const isNight = dayT < 0.35;  
+  
+    if (!isNight && lastNightState) {  
+      trimDayMonsters();  
+    }  
+    lastNightState = isNight;  
+  
+    spawnTimer += dt;  
+    if (isNight) {  
+      if (spawnTimer >= 3.2) {  
+        spawnTimer = 0;  
+        spawnMonsterNearPlayer();  
+      }  
+    } else {  
+      if (spawnTimer >= 7.5) {  
+        spawnTimer = 0;  
+        if (monsters.length < 6) spawnMonsterNearPlayer();  
+      }  
+    }  
+  
+    for (const c of clouds) {  
+      c.x += c.speed * dt;  
+      if (c.x - c.w > W * TILE + 300) {  
+        c.x = -250 - Math.random() * 200;  
+        c.y = 30 + Math.random() * 180;  
+      }  
+    }  
   
     let ax = 0;  
-    if (keys['a'] || keys['arrowleft']) ax -= 1;  
-    if (keys['d'] || keys['arrowright']) ax += 1;  
+    if (keys["a"] || keys["arrowleft"]) ax -= 1;  
+    if (keys["d"] || keys["arrowright"]) ax += 1;  
   
-    const accel = player.onGround ? 1 : AIR_CTRL;  
-    player.vx += ax * MOVE * accel * 1.4;  
-    player.vx *= player.onGround ? FRICTION : 0.975;  
+    const friction = player.onGround ? 0.55 : 0.97;  
+    const air = player.onGround ? 1 : 0.05;  
   
+    player.vx += ax * PLAYER_MOVE * air * 1.6;  
+    player.vx *= friction;  
     player.vy += GRAV * dt;  
   
-    if ((keys[' '] || keys['w'] || keys['arrowup']) && player.onGround) {  
-      player.vy = -JUMP;  
+    if ((keys[" "] || keys["w"] || keys["arrowup"]) && player.onGround) {  
+      player.vy = -PLAYER_JUMP;  
       player.onGround = false;  
     }  
   
-    movePlayerAndCollide(dt);  
+    moveBody(player, dt);  
   
     for (const m of monsters) {  
-      moveMonster(m, dt);  
+      updateMonster(m, dt);  
       if (rectsOverlap(player.x, player.y, player.w, player.h, m.x, m.y, m.w, m.h)) {  
         damagePlayer();  
       }  
@@ -974,19 +978,33 @@
       player.hitTimer -= dt;  
       if (player.hitTimer < 0) player.hitTimer = 0;  
     }  
+
+    // регенерация здоровья
+if (player.hitTimer === 0 && player.hp < 5) {
+
+  player.regenTimer += dt;
+
+  if (player.regenTimer > 4) {
+    player.hp++;
+    player.regenTimer = 0;
+    updateHearts();
+  }
+
+} else {
+  player.regenTimer = 0;
+}
   
-    cam.x = player.x + player.w / 2 - innerWidth / 2;  
-    cam.y = player.y + player.h / 2 - innerHeight / 2;  
-    cam.x = Math.max(0, Math.min(cam.x, W * TILE - innerWidth));  
-    cam.y = Math.max(0, Math.min(cam.y, H * TILE - innerHeight));  
+    centerCameraOnPlayer();  
   
-    drawBackground();  
-    drawClouds();  
+    drawBackground(dayT);  
+    drawStars(nightAlpha, now);  
+    drawSunMoon(dayT, dayTime);  
+    drawClouds(dayT);  
   
-    const x0 = Math.max(0, Math.floor(cam.x / TILE) - 1);  
-    const y0 = Math.max(0, Math.floor(cam.y / TILE) - 1);  
-    const x1 = Math.min(W - 1, Math.floor((cam.x + innerWidth) / TILE) + 1);  
-    const y1 = Math.min(H - 1, Math.floor((cam.y + innerHeight) / TILE) + 1);  
+    const x0 = Math.max(0, Math.floor(camX / TILE) - 2);  
+    const y0 = Math.max(0, Math.floor(camY / TILE) - 2);  
+    const x1 = Math.min(W - 1, Math.floor((camX + innerWidth) / TILE) + 2);  
+    const y1 = Math.min(H - 1, Math.floor((camY + innerHeight) / TILE) + 2);  
   
     for (let y = y0; y <= y1; y++) {  
       for (let x = x0; x <= x1; x++) {  
@@ -999,18 +1017,10 @@
     drawPlayer();  
     drawTarget();  
   
-    const tx = Math.floor((mouse.x + cam.x) / TILE);  
-    const ty = Math.floor((mouse.y + cam.y) / TILE);  
-    const bid = get(tx, ty);  
-  
-    debug.textContent =  
-      `Цель: (${tx}, ${ty}) ${bid ? blockNames[bid] : 'Air'} | Монстров: ${monsters.length}`;  
-  
     requestAnimationFrame(loop);  
   }  
   
   updateSlots();  
-  drawHearts();  
   requestAnimationFrame(loop);  
 })();  
 </script>  
